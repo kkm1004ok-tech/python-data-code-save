@@ -1,1 +1,61 @@
+## 기본 예시 데이터
+import seaborn as sns
+import pandas as pd
+tips=sns.load_dataset('tips')
+print(tips.head())
+print(tips.describe())
 
+
+##시각적 탐지 -boxplot
+import matplotlib.pyplot as plt
+plt.figure(figsize=(4,6))
+sns.boxplot(y=tips['total_bill'])
+plt.title('Tips(Boxplot)')
+plt.ylabel('total bill($)')
+plt.show
+
+##수치기반 탐지: IQR
+Q1=tips['total_bill'].quantile(0.25)
+Q3=tips['total_bill'].quantile(0.75)
+IQR=Q3-Q1
+lower_bound=Q1-1.5*IQR
+upper_bound=Q3+1.5*IQR
+outliers=tips[(tips['total_bill']<lower_bound)|(tips['total_bill']>upper_bound)]
+print(outliers['total_bill'])
+
+## 수치기반 탐지: Z분포
+import numpy as np
+mean=tips['total_bill'].mean()
+std=tips['total_bill'].std()
+threshold=3
+z_scores=(tips['total_bill']-mean)/std
+outliers_z=tips[np.abs(z_scores)>threshold]
+print(outliers_z['total_bill'])
+
+## 이상치 제거
+  ## 단순제거
+tips_clean=tips[(tips['total_bill']>=lower_bound)|(tips['total_bill']<=upper_bound)]
+tips_clean_z=tips[np.abs(z_scores)<=threshold]
+  ##이후 원본데이터와 수정데이터의 평균, 중앙값 등을 확인한다.
+  ##Z스코어 사용시에는 정규분포 가정이 필요함 
+
+## 이상치 효과 줄이기 - RobustScaler
+from sklearn.preprocessing import RobustScaler
+targets=tips[['total_bill','tip']]
+scaler=RobustScaler()
+targets_scaled=scaler.fit_transform(targets)
+print("원본5개:\n",X_scaled[:5])
+
+import matplotlib.pyplot as plt
+plt.figure(figsize=(4,6))
+sns.histplot(targets_scaled[])
+plt.show()
+
+##중복치 제거
+data={'Name':['kim','lee','lee','choi'],
+      'score':[90,85,85,95]}
+df=pd.DataFrame(data)
+print(df)
+print(df.duplicated())
+df_no_dup=df.drop_duplicates()
+print(df_no_dup)
