@@ -1,0 +1,22 @@
+##예시데이터
+import pandas as pd
+df=pd.read_csv('https://openmv.net/file/travel-times.csv')
+
+##데이터형 확인
+print(df.dtypes)
+
+## 숫자로변환
+df['FuelEconomy']=pd.to_numeric(df['FuelEconomy'])
+
+##coerce_numeric = errors not in ("ignore", "raise"
+##Unable to parse string "-"-> (-)라는 기호가 있어서 그냥 내버려둠...
+
+## 중복되지 않은 값들 알아보기
+print(df['FuelEconomy'].unique())
+
+##coerce는 변환실패시 NaN으로 변환 / raise: 변환실패시 예외발생
+df['FuelEconomy']=pd.to_numeric(df['FuelEconomy'],errors='coerce')
+
+##시계열 데이터 변환
+df['Date']=pd.to_datetime(df['Date'])
+print(df.dtypes)
