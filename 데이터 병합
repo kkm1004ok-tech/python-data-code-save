@@ -1,0 +1,21 @@
+##데이터 병합 (merge) - 데이터 변수 추가
+dest_info = pd.DataFrame({
+    'GoingTo': ['Home', 'GSK', 'Cafe'],
+    'DestinationType': ['Residence', 'Workplace', 'Other'],
+    'Code': [1, 2, 3]
+})
+
+print(dest_info)
+
+## 데이터 병합 inner/right/left
+df_merged=pd.merge(df,dest_info,on='GoingTo',how='inner')
+print(df_merged.shape)
+
+##dest_info에 없는 키 cafe 등의 행은 버려지고, df에 dest_info에 없는키가 있다면 그거도 버려짐
+
+df_merged=pd.merge(df,dest_info,on='GoingTo',how='left')
+print(df_merged.shape)
+
+df_merged=pd.merge(df,dest_info,on='GoingTo',how='right')
+print(df_merged.shape)
+print(df_merged)
