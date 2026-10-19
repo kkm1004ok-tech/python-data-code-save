@@ -1,0 +1,35 @@
+## 기본 자
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+##csv 데이터 불러오기
+url="https://openmv.net/file/travel-times.csv"
+df=pd.read_csv(url)
+
+## 자료 정제
+features=['Distance','MaxSpeed']
+df_selected=df[features].dropna()
+
+## 데이터 분포 파악
+plt.figure(figsize=(15,4))
+for i, col in enumerate(features):
+  plt.subplot(1,3,i+1)
+  sns.kdeplot(df_selected[col],fill=True)
+  plt.title(f'normalized distribution:{col}')
+plt.tight_layout()
+plt.show()
+
+## 스케일러 
+## MinMaxScaler, RobustScaler, StandardScaler 등등만 바꾸면 됨.
+from sklearn.preprocessing import MinMaxScaler
+scaler=MinMaxScaler()
+df_scaled=pd.DataFrame(scaler.fit_transform(df_selected),columns=features)
+
+plt.figure(figsize=(15,4))
+for i, col in enumerate(features):
+  plt.subplot(1,3,i+1)
+  sns.kdeplot(df_scaled[col],fill=True)
+  plt.title(f'normalized distribution:{col}')
+plt.tight_layout()
+plt.show()
