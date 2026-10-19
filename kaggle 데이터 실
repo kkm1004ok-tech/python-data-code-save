@@ -1,0 +1,28 @@
+## kaggle api 업로드
+from google.colab import files
+files.upload()
+
+## Kaggle api 사용위한 환경설정
+!mkdir -p ~/.kaggle
+!cp kaggle.json ~/.kaggle/
+!chmod 600 ~/.kaggle/kaggle.json
+
+## kaggle 데이터셋 다운로드
+import pandas as pd
+
+  # Grocery Sales 데이터 DataFrame 로드
+train=pd.read_csv('train.csv')
+stores=pd.read_csv('stores.csv')
+transactions=pd.read_csv('transactions.csv')
+oil=pd.read_csv('oil.csv')
+holidays_events=pd.read_csv('holidays_events.csv')
+  # 판매 데이터 살펴보기
+train.info()
+
+##kaggle 데이터셋 측정
+# 판매 데이터 기본 통계량
+train.describe()
+# 원유 가격 데이터 기본 정보
+stores.head()
+oil.head()
+
