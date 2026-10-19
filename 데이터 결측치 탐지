@@ -4,8 +4,13 @@ print(df)
 
 ## 결측치 갯수/비 확인
 print(df.isnull().sum())
+print(df.isnull().sum(axis=1)) ## 행별로 결측치가 몇개가 있는지...
 print(df.isnull().mean())
+print(df.isna().sum())
 
+df[df.isnull().any(axis] ## 데이터 중 하나이상의 결측치나오는거만.... 
+
+df.notnull() ##결측치가 아닌것...
 ## 결측치 시각화: seaborn
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -34,4 +39,9 @@ import klib
 
 df['FuelEconomy']=pd.to_numeric(df['FuelEconomy'],errors='coerce')
 klib.corr_plot(df) ##전체적인 corr 표##
+
+##missingno
+msno.matrix(df)
+plt.title("결측치 매트릭스")
+plt.show()
 klib.corr_plot(df,target=df['FuelEconomy']) ##'FuelEconomy' 만 타겟으로 상관관계 확인
